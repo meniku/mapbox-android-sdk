@@ -38,6 +38,17 @@ public class MBTilesLayer extends TileLayer implements MapViewConstants, MapboxC
 
     /**
      * Initialize a new tile layer, represented by a MBTiles file.
+     *
+     * @param file a MBTiles file
+     * @param context the graphics drawing context
+     */
+    public MBTilesLayer(final Context context, final File file) {
+        super(file.getName(), file.getAbsolutePath());
+        initialize(file);
+    }
+
+    /**
+     * Initialize a new tile layer, represented by a MBTiles file.
      * This constructor does need a context but as a consequence won't look
      * for an asset mbtiles
      *
@@ -77,6 +88,16 @@ public class MBTilesLayer extends TileLayer implements MapViewConstants, MapboxC
      */
     private void initialize(String url, final Context context) {
         File file = getFile(url, context);
+        initialize(file);
+    }
+
+    /**
+     * Reads and opens a MBTiles file and loads its tiles into this layer.
+     */
+    private void initialize(File file) {
+        if (file != null) {
+            mbTilesFileArchive = MBTilesFileArchive.getDatabaseFileArchive(file);
+        }
 
         if (file != null) {
             mbTilesFileArchive = MBTilesFileArchive.getDatabaseFileArchive(file);
